@@ -2,6 +2,8 @@
 import argparse
 import os
 
+import sys
+
 from mmengine import MMLogger
 from mmengine.config import Config, DictAction
 from mmengine.dist import init_dist
@@ -130,4 +132,12 @@ def main():
 
 
 if __name__ == '__main__':
+    sys.argv.append('/home/amakacs/mmdetection/configs/faster_rcnn/hyperbolic_faster_rcnn/hyperbolic_config.py')
+    sys.argv.append("/home/amakacs/mmdetection/work_dirs/hyper_manual_debug_v4/epoch_3.pth")
+    sys.argv.append('--fuse-conv-bn')
+    sys.argv.append('--dataset-type')
+    sys.argv.append('val')
+    sys.argv.append('--work-dir')
+    sys.argv.append("mmdetection/work_dirs/hyperbolic_faster_rcnn_benchmark_val/")
+
     main()
