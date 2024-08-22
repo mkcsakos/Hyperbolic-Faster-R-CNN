@@ -1,0 +1,46 @@
+default_scope = 'mmdet'
+
+default_hooks = dict(
+    # early_stopping=dict(type="EarlyStoppingHook", monitor="coco/bbox_mAP", patience=10, min_delta=0.005),
+    timer=dict(type='IterTimerHook'),
+    logger=dict(type='LoggerHook', interval=50),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    checkpoint=dict(type='CheckpointHook', interval=1),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    visualization=dict(type='DetVisualizationHook'))
+
+custom_hooks = [
+    dict(type='CheckInvalidLossHook', interval=50),
+    dict(type='PeBusePenaltyLossResetVariablesHook'),
+    dict(type='MemoryProfilerHook', interval=50)
+]
+
+# from mmengine.hooks import Hook
+# from mmdet.registry import HOOKS
+
+# custom_hooks = [
+#     dict(type='NaNInfCheckerHook')
+# ]
+
+# custom_hooks = [
+#     dict(type='NumClassCheckHook'),
+#     dict(type='JsonLoggerHook', interval=50)
+# ]
+
+env_cfg = dict(
+    cudnn_benchmark=False,
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
+    dist_cfg=dict(backend='nccl'),
+)
+
+# vis_backends = [dict(type='LocalVisBackend')]
+vis_backends = [dict(type='LocalVisBackend'), dict(type='TensorboardVisBackend')]
+visualizer = dict(type='DetLocalVisualizer', vis_backends=vis_backends, name='visualizer')
+log_processor = dict(type='LogProcessor', window_size=50, by_epoch=True)
+
+log_level = 'INFO'
+load_from = None
+# load_from = 'https://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
+resume = False
+
+workflow = [('train', 1),('val', 1)]

@@ -1,3 +1,8 @@
+*.code-workspace
+
+# Ignore Weights
+*.pth
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -115,7 +120,6 @@ data
 *.log.json
 docs/modelzoo_statistics.md
 mmdet/.mim
-work_dirs/
 
 # Pytorch
 *.pth
